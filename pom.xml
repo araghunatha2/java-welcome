@@ -17,6 +17,7 @@
 		</repository>
 	</repositories>
 
+    
 	<dependencies>
 
 		<dependency>
@@ -40,5 +41,16 @@
 
   <build>
     <finalName>jersey-mysql</finalName>
+       <plugins>
+<plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat8-maven-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+          <port>8080</port>
+          <path>/</path>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
