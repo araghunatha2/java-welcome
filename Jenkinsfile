@@ -12,7 +12,7 @@ node  {
   // we want to pick up the version from the pom
   def pom = readMavenPom file: 'pom.xml'
   def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
-  def mvnCmd = "mvn -s conf/settings.xml"
+  def mvnCmd = "mvn -s ${mvnHome}/conf/settings.xml"
   sh "${mvnCmd} clean install -DskipTests=true"
   // Mark the code build 'stage'....
   stage 'Build'
