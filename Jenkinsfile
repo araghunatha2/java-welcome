@@ -13,7 +13,9 @@ node  ('maven') {
   def pom = readMavenPom file: 'pom.xml'
   def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
   def mvnCmd = "mvn -s ${mvnHome}/conf/settings.xml"
+  def mvnCmd = "mvn"
   sh "${mvnCmd} clean install -DskipTests=true"
+  sh "mvn --version"
   // Mark the code build 'stage'....
   stage 'Build'
   // Run the maven build this is a release that keeps the development version 
