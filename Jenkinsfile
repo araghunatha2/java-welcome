@@ -16,7 +16,7 @@ node   ('maven'){
   sh "${mvnCmd} clean install -DskipTests=true"
   // Mark the code build 'stage'....
   
-   stage ('Deploy DEV') {
+   stage 'Deploy DEV' 
                sh "rm -rf oc-build && mkdir -p oc-build/deployments"
                sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
                sh "oc project anudev"
@@ -29,7 +29,7 @@ node   ('maven'){
                // deploy image
                sh "oc new-app tasks:latest -n dev"
                sh "oc expose svc/tasks -n anudev"
-             }
+             
   
   
   
