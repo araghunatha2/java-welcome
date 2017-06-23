@@ -23,12 +23,12 @@ node   ('maven'){
                // clean up. keep the image stream
                //sh "oc delete bc,dc,svc,route -l app=tasks -n dev"
                // create build. override the exit code since it complains about exising imagestream
-               sh "oc new-build --name=newtasks --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --labels=app=tasks -n conti || true"
+               sh "oc new-build --name=newtasks1 --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --labels=app=newtasks1 -n conti || true"
                // build image
-               sh "oc start-build newtasks --from-dir=oc-build --wait=true -n conti"
+               sh "oc start-build newtasks1 --from-dir=oc-build --wait=true -n conti"
                // deploy image
-               sh "oc new-app newtasks:latest -n conti"
-               sh "oc expose svc/newtasks -n conti"
+               sh "oc new-app newtasks1:latest -n conti"
+               sh "oc expose svc/newtasks1 -n conti"
       
   
  // stage 'Build'
