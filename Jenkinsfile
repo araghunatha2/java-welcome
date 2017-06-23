@@ -1,4 +1,5 @@
-node ('maven') {
+node  {
+  agent any
   // Mark the code checkout 'stage'....
   stage 'Checkout'
   // Get some code from a GitHub repository
