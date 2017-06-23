@@ -18,7 +18,7 @@ node   ('maven'){
   
    stage 'Deploy DEV' 
                sh "rm -rf oc-build && mkdir -p oc-build/deployments"
-               sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
+               sh "cp target/*.war oc-build/deployments/ROOT.war"
                sh "oc project anudev"
                // clean up. keep the image stream
                sh "oc delete bc,dc,svc,route -l app=tasks -n dev"
