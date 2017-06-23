@@ -8,13 +8,12 @@ node   ('maven'){
   // Clean any locally modified files and ensure we are actually on origin/master
   // as a failed release could leave the local workspace ahead of origin/master
   sh "git clean -f && git reset --hard origin/master"
-  //def mvnHome = tool 'M3'
+  def mvnHome = tool 'M3'
   // we want to pick up the version from the pom
   def pom = readMavenPom file: 'pom.xml'
   def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
   def mvnCmd = "mvn -s ${mvnHome}/conf/settings.xml"
   sh "${mvnCmd} clean install -DskipTests=true"
-  sh "mvn --version"
   // Mark the code build 'stage'....
   stage 'Build'
   // Run the maven build this is a release that keeps the development version 
