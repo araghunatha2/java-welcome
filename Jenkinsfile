@@ -15,12 +15,29 @@ node   ('maven'){
   def mvnCmd = "mvn -s ${mvnHome}/conf/settings.xml"
   sh "${mvnCmd} clean install -DskipTests=true"
   // Mark the code build 'stage'....
-  stage 'Build'
+  
+   stage ('Deploy DEV') {
+               sh "rm -rf oc-build && mkdir -p oc-build/deployments"
+               sh "cp target/openshift-tasks.war oc-build/deployments/ROOT.war"
+               sh "oc project anudev"
+               // clean up. keep the image stream
+               sh "oc delete bc,dc,svc,route -l app=tasks -n dev"
+               // create build. override the exit code since it complains about exising imagestream
+               sh "oc new-build --name=tasks --image-stream=jboss-eap70-openshift --binary=true --labels=app=tasks -n anudev || true"
+               // build image
+               sh "oc start-build tasks --from-dir=oc-build --wait=true -n anudev"
+               // deploy image
+               sh "oc new-app tasks:latest -n dev"
+               sh "oc expose svc/tasks -n anudev"
+             }
+  
+  
+  
+ // stage 'Build'
   // Run the maven build this is a release that keeps the development version 
   // unchanged and uses Jenkins to provide the version number uniqueness
   
-  sh "${mvnHome}/bin/mvn -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize release:prepare release:perform -B" 
+  //sh "${mvnHome}/bin/mvn -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize release:prepare release:perform -B" 
   // Now we have a step to decide if we should publish to production 
   // (we just use a simple publish step here)
-  
   }
