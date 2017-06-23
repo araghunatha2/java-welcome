@@ -19,16 +19,16 @@ node   ('maven'){
    stage 'Deploy DEV' 
                sh "rm -rf oc-build && mkdir -p oc-build/deployments"
                sh "cp target/jersey-mysql.war oc-build/deployments/ROOT.war"
-               //sh "oc project anudev"
+               sh "oc project conti"
                // clean up. keep the image stream
-               //sh "oc delete bc,dc,svc,route -l app=tasks -n dev"
+               sh "oc delete bc,dc,svc,route -l app=newtasks2 -n conti"
                // create build. override the exit code since it complains about exising imagestream
-               sh "oc new-build --name=newtasks1 --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --labels=app=newtasks1 -n conti || true"
+               sh "oc new-build --name=newtasks2 --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --labels=app=newtasks2 -n conti || true"
                // build image
-               sh "oc start-build newtasks1 --from-dir=oc-build --wait=true -n conti"
+               sh "oc start-build newtasks2 --from-dir=oc-build --wait=true -n conti"
                // deploy image
-               sh "oc new-app newtasks1:latest -n conti"
-               sh "oc expose svc/newtasks1 -n conti"
+               sh "oc new-app newtasks2:latest -n conti"
+               sh "oc expose svc/newtasks2 -n conti"
       
   
  // stage 'Build'
