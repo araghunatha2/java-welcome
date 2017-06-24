@@ -7,7 +7,7 @@ node   ('maven'){
   git url: 'https://github.com/araghunatha2/java-welcome.git'
   // Clean any locally modified files and ensure we are actually on origin/master
   // as a failed release could leave the local workspace ahead of origin/master
-  sh "git clean -f && git reset --hard origin/master"
+  //sh "git clean -f && git reset --hard origin/master"
   def mvnHome = tool 'M3'
   // we want to pick up the version from the pom
   def pom = readMavenPom file: 'pom.xml'
