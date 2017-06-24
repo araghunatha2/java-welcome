@@ -23,14 +23,14 @@ node   ('maven'){
                sh "cp target/jersey-mysql.war oc-build/deployments/ROOT.war"
                sh "oc project conti"
                // clean up. keep the image stream
-               sh "oc delete bc,dc,svc,route -l app=finalapp -n conti"
+               sh "oc delete bc,dc,svc,route -l app=finalapp1 -n conti"
                // create build. override the exit code since it complains about exising imagestream
-               sh "oc new-build --name=finalapp --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --labels=app=finalapp -n conti || true"
+               sh "oc new-build --name=finalapp1 --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --labels=app=finalapp1 -n conti || true"
                // build image
-               sh "oc start-build finalapp --from-dir=oc-build --wait=true -n conti"
+               sh "oc start-build finalapp1 --from-dir=oc-build --wait=true -n conti"
                // deploy image
-               sh "oc new-app finalapp:latest -n conti"
-               sh "oc expose svc/finalapp -n conti"
+               sh "oc new-app finalapp1:latest -n conti"
+               sh "oc expose svc/finalapp1 -n conti"
       
   
  // stage 'Build'
