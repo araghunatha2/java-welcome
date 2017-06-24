@@ -17,6 +17,8 @@ node   ('maven'){
   // Mark the code build 'stage'....
   
    stage 'Deploy DEV' 
+               sh "pwd"
+               sh "ls -l"
                sh "rm -rf oc-build && mkdir -p oc-build/deployments"
                sh "cp target/jersey-mysql.war oc-build/deployments/ROOT.war"
                sh "oc project conti"
